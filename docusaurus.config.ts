@@ -1,6 +1,15 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import {config as loadEnv} from 'dotenv';
+
+loadEnv({path: '.env'});
+loadEnv({path: '.env.local', override: true});
+
+const tayaChatBotEntryPoint = process.env.DOCUSAURUS_TAYA_ENTRY_POINT ?? '';
+const tayaChatBotLocale = process.env.DOCUSAURUS_TAYA_LOCALE ?? 'ru';
+const tayaChatBotTheme = process.env.DOCUSAURUS_TAYA_THEME ?? '';
+const tayaChatBotOpenOnLoad = process.env.DOCUSAURUS_TAYA_OPEN_ON_LOAD ?? 'false';
 
 const config: Config = {
   title: 'CDEK Avito',
@@ -27,6 +36,13 @@ const config: Config = {
   i18n: {
     defaultLocale: 'ru',
     locales: ['ru'],
+  },
+
+  customFields: {
+    tayaChatBotEntryPoint,
+    tayaChatBotLocale,
+    tayaChatBotTheme,
+    tayaChatBotOpenOnLoad,
   },
 
   plugins: [
