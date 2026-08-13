@@ -1,6 +1,29 @@
-import {renderComponentToBody} from '@cdek/cdek-chat-bot';
-
 type ChatTheme = 'dark' | 'light';
+
+type RenderComponentToBodyParams = {
+  entryPoint: string;
+  locale: string;
+  theme?: ChatTheme;
+};
+
+type ChatBotModule = {
+  renderComponentToBody: (params: RenderComponentToBodyParams) => void;
+};
+
+const CDEK_CHAT_BOT_MODULE_URL =
+  'https://public-static.cdek.ru/chat-bot/releases/latest/main.mjs';
+
+let chatBotModulePromise: Promise<ChatBotModule> | null = null;
+
+function loadChatBotModule(): Promise<ChatBotModule> {
+  if (!chatBotModulePromise) {
+    chatBotModulePromise = import(
+      /* webpackIgnore: true */ CDEK_CHAT_BOT_MODULE_URL
+    ) as Promise<ChatBotModule>;
+  }
+
+  return chatBotModulePromise;
+}
 
 type InstallTayaBotChatParams = {
   entryPoint: string;
@@ -28,6 +51,8 @@ export const installTayaBotChat = ({
     return () => undefined;
   }
 
+  let isDisposed = false;
+
   const onMessage = (event: MessageEvent<TayaChatBotEventData>) => {
     const data = event.data;
 
@@ -49,13 +74,26 @@ export const installTayaBotChat = ({
 
   window.addEventListener('message', onMessage);
 
-  renderComponentToBody({
-    entryPoint,
-    locale,
-    theme,
-  });
+  void loadChatBotModule()
+    .then(({renderComponentToBody}) => {
+      if (isDisposed) {
+        return;
+      }
+
+      renderComponentToBody({
+        entryPoint,
+        locale,
+        theme,
+      });
+    })
+    .catch((error: unknown) => {
+      window.removeEventListener('message', onMessage);
+      // Keep docs rendering even if chat-bot CDN is temporarily unavailable.
+      console.error('Failed to load CDEK chat-bot module', error);
+    });
 
   return () => {
+    isDisposed = true;
     window.removeEventListener('message', onMessage);
   };
 };

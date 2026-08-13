@@ -1457,13 +1457,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cdek/cdek-chat-bot@npm:^2.0.3":
-  version: 2.0.5
-  resolution: "@cdek/cdek-chat-bot@npm:2.0.5"
-  checksum: 10c0/3cbb96c708a8318aaef51d1e37ae01d3d706e62e7b5d0703fdf9c7ebf72115cae09ed9809538e92cdfb306a9c39ed88cbe99fff83acdf522537aae227de9e2c0
-  languageName: node
-  linkType: hard
-
 "@colors/colors@npm:1.5.0":
   version: 1.5.0
   resolution: "@colors/colors@npm:1.5.0"
@@ -7176,7 +7169,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "guide@workspace:."
   dependencies:
-    "@cdek/cdek-chat-bot": "npm:^2.0.3"
     "@docusaurus/core": "npm:^3.7.0"
     "@docusaurus/module-type-aliases": "npm:3.7.0"
     "@docusaurus/plugin-ideal-image": "npm:^3.7.0"

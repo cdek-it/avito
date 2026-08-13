@@ -15,7 +15,6 @@
     "docs:typecheck": "tsc"
   },
   "dependencies": {
-    "@cdek/cdek-chat-bot": "^2.0.3",
     "@docusaurus/core": "^3.7.0",
     "@docusaurus/plugin-ideal-image": "^3.7.0",
     "@docusaurus/preset-classic": "^3.7.0",
